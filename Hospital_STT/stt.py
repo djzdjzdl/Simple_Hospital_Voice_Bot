@@ -30,6 +30,9 @@ class SR_Hospital_Util:
             return False
 
 class SR_Hospital:
+    '''
+       Main STT Class 
+    '''
 
     # Set default path
     stt_path = pathlib.Path(__file__).parent.absolute()
@@ -61,8 +64,15 @@ class SR_Hospital:
         mk_source_file_path = os.path.join(SR_Hospital.stt_path, 'Input_Audioes')
 
         while True:
+            ## Listening audio file
+            '''
+            ## -------
+            Temporarily enabled
+            '''
             with sr.AudioFile( os.path.join(mk_source_file_path, input_text.replace(' ','')+ '.wav')) as source:
                 audio = rec.record(source)
+            
+            ## -------
 
             '''
             Temporarily disabled 
@@ -102,12 +112,14 @@ class SR_Hospital:
         p = pyaudio.PyAudio()
         info = p.get_host_api_info_by_index(0)
         numdevices = info.get('deviceCount')
+
+        ## Important - Change to your mic device name ##
         find_device = '마이크(Realtek(R) Audio)'
         
 
         for i in range(0, numdevices):
             if (p.get_device_info_by_host_api_device_index(0, i).get('maxInputChannels')) > 0:
-                #print("Input Device id ", i, " - ", p.get_device_info_by_host_api_device_index(0, i).get('name'))
+                print("Input Device id ", i, " - ", p.get_device_info_by_host_api_device_index(0, i).get('name'))
 
                 # If you not use airpods, change it to another one
                 if (find_device in p.get_device_info_by_host_api_device_index(0, i).get('name')):
